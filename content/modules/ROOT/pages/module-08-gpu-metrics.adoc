@@ -1,0 +1,49 @@
+= Module 8: GPU Metrics
+
+[%hardbreaks]
+== Module Overview
+
+Insights into GPU metrics can help optimize resource allocation and increase utilization.
+
+
+.*Learning Objectives*
+
+* Enable Red Hat OpenShift AI User Workload Metrics for Single Serving Models 
+* Understand how to expose GPU telemetry
+
+
+== GPU Metrics
+
+=== NVIDIA DCGM
+
+NVIDIA Data Center GPU Manager (DCGM) is a suite of tools to manage and montiro NVIDIA GPUs to help ensure optimal performance and reliability.
+DCGM has features for diagnostics, policy management, health monitoring, and exposes metrics to Prometheus by the NVIDIA DCGM Exporter which can be visualized in a Grafana dashboard.
+
+ NVIDIA DCGM is installed from the NVIDIA GPU Operator for Kubernetes or a Helm chart.
+
+Thank you for participating in this workshop. We encourage you to continue your journey with high-performance OpenShift and to share your experiences with the broader community.
+
+For additional support and advanced training opportunities, contact your Red Hat account team or visit the Red Hat Training and Certification portal.
+
+. For the Helm chart installation
++
+[source,bash,role=execute]
+----
+  # Add the NVIDIA DCGM Exporter Helm repo and get the latest info about charts
+helm repo add gpu-helm-charts https://nvidia.github.io/dcgm-exporter/helm-charts && helm repo update
+
+  # Install the chart
+helm install --generate-name gpu-helm-charts/dcgm-exporter
+
+  # Deploy the dcgm-exporter DaemonSet
+oc apply -f https://raw.githubusercontent.com/NVIDIA/dcgm-exporter/master/dcgm-exporter.yaml
+
+  # Export the name of a dcgm-exporter Pod in the NAME environment variable
+NAME=$(kubectl get pods -l "app.kubernetes.io/name=dcgm-exporter" -o "jsonpath={ .items[0].metadata.name}")
+
+  # Forward the port on the Pod to a local port 
+oc port-forward $NAME 8080:9400
+
+  # Obtain metrics 
+curl -sL http://127.0.0.1:8080/metrics 
+----
