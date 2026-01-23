@@ -33,6 +33,7 @@ Many industries and organizations, especially in finance and telecommunications,
 * Degraded user experience in real-time applications
 * Violation of Service Level Agreements (SLAs)
 * Competitive disadvantage in time-sensitive markets
+* Research from the Nielsen Norman Group states that "a 10-second delay will often make users leave a site immediately... Even a few seconds' delay is enough to create an unpleasant user experience."
 
 .*Key Use Cases*
 
